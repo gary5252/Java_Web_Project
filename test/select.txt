@@ -1,0 +1,18 @@
+以下為 select.jsp 要用來傳 java 變數值給 .js 的方式，但由於這些 java 變數在 %> 之後就會消失變成 NULL，
+將下面寫進 <% %> 又會因為後面的 <%=xxx%> 卡 ERROR(double quote錯誤，應該是字串雙引號錯誤問題)，
+暫時來不及處理先寫在這。
+
+         <input type=”hidden“ name=“jan” id="jan" value="<%=jan%>"
+         <input type=”hidden“ name=“feb” id="feb" value="<%=feb%>"
+         <input type=”hidden“ name=“mar” id="mar" value="<%=mar%>"
+         <input type=”hidden“ name=“apr” id="apr" value="<%=apr%>"
+         <input type=”hidden“ name=“may” id="may" value="<%=may%>"
+         <input type=”hidden“ name=“jun” id="jun" value="<%=jun%>"
+         <input type=”hidden“ name=“jul” id="jul" value="<%=jul%>"
+         <input type=”hidden“ name=“aug” id="aug" value="<%=aug%>"
+         <input type=”hidden“ name=“sep” id="sep" value="<%=sep%>"
+         <input type=”hidden“ name=“oct” id="oct" value="<%=oct%>"
+         <input type=”hidden“ name=“nov” id="nov" value="<%=nov%>"
+         <input type=”hidden“ name=“dec” id="dec" value="<%=dec%>"
+
+取值 > 型態 變數 = request.getValue("前端name");

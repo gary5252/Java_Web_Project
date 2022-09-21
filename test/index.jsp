@@ -28,7 +28,7 @@
     
       Statement st = con.createStatement();
     
-      String sql= "SELECT * FROM user";
+      String sql= "SELECT * FROM user WHERE username = 'admin'";
       ResultSet rs = st.executeQuery(sql);
     
     %>
@@ -43,7 +43,13 @@
           out.println("<td>"+rs.getObject("height")+"</td>");      //身高
           out.println("<td>"+rs.getObject("weight")+"</td>");      //體重
           out.println("<td>"+rs.getObject("money")+"</td></tr>");      //摳摳
+          int hp  = rs.getInt("height");
+        int ap  = rs.getInt("weight");
+        out.println(hp);
+        out.println(ap);
+        out.println(hp - ap);
         }
+        
         rs.close();
         st.close();
         con.close();
