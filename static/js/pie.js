@@ -1,9 +1,17 @@
 const chart = echarts.init(document.getElementById('main'));
+var eat = document.getElementById('eat').value;
+var cloth = document.getElementById('cloth').value;
+var live = document.getElementById('live').value;
+var traffic = document.getElementById('traffic').value;
+var teach = document.getElementById('teach').value;
+var fun = document.getElementById('fun').value;
+var others = document.getElementById('others').value;
+var year = document.getElementById('year').value;
 
 option = {
     title: {
       text: 'Expense Proportion',
-      subtext: '2022 September',
+      subtext: year + 'September',
       left: 'center'
     },
     tooltip: {
@@ -19,13 +27,13 @@ option = {
         type: 'pie',
         radius: '50%',
         data: [
-          { value: 1048, name: '食' },
-          { value: 2000, name: '衣' },
-          { value: 12000, name: '住' },
-          { value: 1000, name: '行' },
-          { value: 742, name: '育' },
-          { value: 2834, name: '樂' },
-          { value: 252, name: '其他' }
+          { value: eat, name: '食' },
+          { value: cloth, name: '衣' },
+          { value: live, name: '住' },
+          { value: traffic, name: '行' },
+          { value: teach, name: '育' },
+          { value: fun, name: '樂' },
+          { value: others, name: '其他' }
         ],
         emphasis: {
           itemStyle: {

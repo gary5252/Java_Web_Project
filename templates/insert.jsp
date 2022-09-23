@@ -75,14 +75,15 @@
         <input type="reset" value="清除"/>
     </p>
     </form>
-    <img src="../static/images/img02.jpg" alt="" style="display:inline;max-width: 60%;max-height: 70%;position:relative;left:40%;top:0px;">
     <%
     String mess = (String)session.getAttribute("MESS");
     if ( mess != null){
-     out.println(mess);
+     out.println(mess + "<br>");
      session.removeAttribute("MESS");
     }
      %>   
+    <img src="../static/images/img02.jpg" alt="" style="display:inline;max-width: 60%;max-height: 70%;position:relative;left:40%;top:0px;">
+
     </div>
 </body>
 </html>

@@ -70,15 +70,15 @@
     <div>
         <label for="month">月份</label>
         <select name="month">
-            <option value="1" checked>1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
+            <option value="01" checked>1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
             <option value="10">10</option>
             <option value="11">11</option>
             <option value="12">12</option>
@@ -86,47 +86,22 @@
     </div>
     <p>
         <button type="submit">查詢</button>
-        <input type="reset" value="清除"/>
+        <!-- <input type="reset" value="清除"/> -->
     </p>
     </form>
-    <!-- <center><table border="1"> -->
+    <center><table border="1">
     <%
     String year = request.getParameter("year");
     String month = request.getParameter("month");
+    String category = "";
     try{
         Class.forName(JDBC_DRIVER); 
         Connection con= DriverManager.getConnection(DB_URL,USER,PASS);
       
-         Statement st = con.createStatement();
-      
-        String sql = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='食'";
-        sql += "GROUP BY `month` ORDER BY `month`";
-
-        String sql1 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql1 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='衣'";
-        sql1 += "GROUP BY `month` ORDER BY `month`";
-
-        String sql2 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql2 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='住'";
-        sql2 += "GROUP BY `month` ORDER BY `month`";
-
-        String sql3 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql3 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='行'";
-        sql3 += "GROUP BY `month` ORDER BY `month`";
-
-        String sql4 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql4 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='育'";
-        sql4 += "GROUP BY `month` ORDER BY `month`";
-
-        String sql5 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql5 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='樂'";
-        sql5 += "GROUP BY `month` ORDER BY `month`";
-
-        String sql6 = "SELECT SUM(`amount`) as `sum`,`month` FROM `record` ";
-        sql6 += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category='其他'";
-        sql6 += "GROUP BY `month` ORDER BY `month`";
-
+        String sql = "SELECT SUM(`amount`) as `sum`,`month`,`category` FROM `record` ";
+        sql += "WHERE `uid`=? AND `year`=? AND `month`=? AND `category` != '收入'";
+        sql += "GROUP BY `month`,`category` ORDER BY `month`";
+       
         PreparedStatement ps = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
                  
         ps.setString(1,id);
@@ -146,22 +121,63 @@
         out.println("<br>");
         out.println(z);
 */
-
-           // out.println("<tr><th>month</th><th>sum</th></tr>");
+        int eat = 0;
+        int cloth = 0;
+        int live = 0;
+        int traffic = 0;
+        int teach = 0;
+        int fun = 0;
+        int others = 0;
+            out.println("<tr><th colspan=\"3\">" + year +"</th></tr>");
+            out.println("<tr><th>month</th><th>category</th><th>sum</th></tr>");
             
             while (rs.next() ){
-                //out.println("<tr><td>"+rs.getInt("month")+"</td>");         
-                //out.println("<td>"+rs.getInt("sum")+"</td></tr>");      
-                int m = rs.getInt("month");
-                int s = rs.getInt("sum");
+                out.println("<tr><td>"+rs.getInt("month")+"</td>");         
+                out.println("<td>"+rs.getObject("category")+"</td>");         
+                out.println("<td>"+rs.getInt("sum")+"</td></tr>");      
+                category = rs.getString("category");
+                switch(category){
+                    case "食" :
+                        eat = rs.getInt("sum");
+                        break;
+                    case "衣" :
+                        cloth = rs.getInt("sum");
+                        break;
+                    case "住" :
+                        live = rs.getInt("sum");
+                        break;
+                    case "行" :
+                        traffic = rs.getInt("sum");
+                        break;
+                    case "育" :
+                        teach = rs.getInt("sum");
+                        break;
+                    case "樂" :
+                        fun = rs.getInt("sum");
+                        break;
+                    case "其他" :
+                        others = rs.getInt("sum");
+                        break;
+                }
               }
+              %>
+    <input type="hidden" name="eat" id="eat" value="<%=eat %>">
+    <input type="hidden" name="cloth" id="cloth" value="<%=cloth %>">
+    <input type="hidden" name="live" id="live" value="<%=live %>">
+    <input type="hidden" name="traffic" id="traffic" value="<%=traffic %>">
+    <input type="hidden" name="teach" id="teach" value="<%=teach %>">
+    <input type="hidden" name="fun" id="fun" value="<%=fun %>">
+    <input type="hidden" name="others" id="others" value="<%=others %>">
+    <input type="hidden" name="year" id="year" value="<%=year %>">
+              <%
               rs.close();
-              st.close();
+              ps.close();
               con.close();
           }catch(Exception e){
             //out.println("資料庫連結錯誤："+e.toString() );
           }      
          %>   
+        </table></center>  
          <div id="main" style="width: 100%;height:600px;"></div>   
         
         <script src="../static/js/pie.js"></script>

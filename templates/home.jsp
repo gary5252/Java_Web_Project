@@ -57,7 +57,7 @@
       
         if (user.equals("admin")){
             Statement st = con.createStatement();
-            sql = "SELECT * FROM `record`,`user` WHERE record.uid = user.UID ORDER BY `year`,`month`,`date`";
+            sql = "SELECT * FROM `record`,`user` WHERE record.uid = user.UID ORDER BY `year` DESC,`month` DESC,`date` DESC";
             ResultSet rs = st.executeQuery(sql);
             %>
             <form action="./update.jsp" method="get"></form>
@@ -86,7 +86,7 @@
               st.close();
               con.close();
         }else{
-        sql = "SELECT * FROM `record` WHERE uid = ? ORDER BY `year`,`month`,`date`";
+        sql = "SELECT * FROM `record` WHERE uid = ? ORDER BY `year` DESC,`month` DESC,`date` DESC";
         PreparedStatement ps = con.prepareStatement(sql);
                  
         ps.setString(1,id);
