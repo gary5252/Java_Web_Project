@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update</title>
-    <link rel="stylesheet" href="../static/css/main.css">
+    <title>Information</title>
     <%@ page contentType="text/html;charset=utf-8" import="java.sql.*"%>
     <%! // MySQL 8.0 以上版本 - JDBC 驅動名及資料庫 URL
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
@@ -28,42 +27,37 @@
     if ( mess != null){
      session.removeAttribute("MESS");
     }
-    
-    String rid = request.getParameter("rid");   
-    String[] date = request.getParameter("date").split("-");
-    String year = date[0];
-    String month = date[1];
-    String dt = date[2];
-    String category = request.getParameter("category");
-	int amount = request.getParameter("amount")!=null?Integer.parseInt(request.getParameter("amount")):null;  //三元運算以防空值報錯
-    String desc = request.getParameter("desc");
+    String phone = request.getParameter("phone");
+    String addr = request.getParameter("addr");
+    String gender = request.getParameter("gender");
+    String email = request.getParameter("email");
+	int age = request.getParameter("age")!=null?Integer.parseInt(request.getParameter("age")):null;  //三元運算以防空值報錯
     try{
         Class.forName(JDBC_DRIVER); 
         Connection con= DriverManager.getConnection(DB_URL,USER,PASS);
 
-            sql = "UPDATE `record` SET `year` = ?, `month` = ?, `date` = ?, `category` = ?, `amount` = ?, `description` = ? WHERE `RID` = ?";
+            sql = "UPDATE `user` SET `gender` = ?, `age` = ?, `phone` = ?, `email` = ?, `address` = ? WHERE `UID` = ?";
             PreparedStatement ps = con.prepareStatement(sql);
                      
-            ps.setString(1,year);
-            ps.setString(2,month);
-            ps.setString(3,dt);
-            ps.setString(4,category);
-            ps.setInt(5,amount);
-            ps.setString(6,desc);
-            ps.setString(7,rid);
+            ps.setString(1,gender);
+            ps.setInt(2,age);
+            ps.setString(3,phone);
+            ps.setString(4,email);
+            ps.setString(5,addr);
+            ps.setString(6,id);
             
             int cnt = ps.executeUpdate();
             if(cnt != 0){
-                session.setAttribute("MESS","序號"+ rid + "紀錄修改成功");
+                session.setAttribute("MESS","帳號 : "+ user + " 資訊編輯成功");
                 ps.clearParameters();
                 ps.close();
                 con.close();
-                response.sendRedirect("home.jsp");  
+                response.sendRedirect("info.jsp");  
             }
         }catch(Exception e){
           // out.println("資料庫連結錯誤："+e.toString() );
-            session.setAttribute("MESS","欄位內容有誤，修改失敗"+e.toString());
-            response.sendRedirect("update.jsp");  
+            session.setAttribute("MESS","欄位內容有誤，編輯失敗"+e.toString());
+            response.sendRedirect("info.jsp");  
         }   
              %>      
           </table></center>  

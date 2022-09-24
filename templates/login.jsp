@@ -51,20 +51,20 @@
             <a href="./register.jsp">註冊</a>
         </p>
     </form>
-    <img src="../static/images/img03.jpg" alt="" style="display:inline;max-width: 60%;max-height: 70%;position:relative;left:40%;top:0px;">
-</div>
-
-<%
+    <%
     String err = (String)session.getAttribute("ERROR");
     if ( err != null){
         out.println(err);
        }
        String mess = (String)session.getAttribute("MESS");
        if ( mess != null){
-        out.println(mess);
+        out.println(mess + "<br>");
         session.removeAttribute("MESS");
        }
-%>
+    %>
+    <img src="../static/images/img03.jpg" alt="" style="display:inline;max-width: 60%;max-height: 70%;position:relative;left:40%;top:0px;">
+</div>
+
 <script src="../static/js/login.js"></script>
 </body>
 </html>

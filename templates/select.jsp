@@ -37,7 +37,7 @@
             out.println("<a class=\"navitem\" href=\"./user.jsp\">用戶資訊</a>");
         %>
         <a class="navitem" href="./insert.jsp">新增記帳</a>
-        <a class="navitem" href="./update.jsp">修改紀錄</a>
+        <a class="navitem" href="./info.jsp">編輯資訊</a>
         <a class="navitem" href="./select.jsp">收支分析</a>
         <a class="navitem" href="./pay.html">氪金支持</a>
         <form action="logout.jsp" method="POST" class="navitem">

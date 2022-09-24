@@ -34,7 +34,7 @@
             out.println("<a class=\"navitem\" href=\"./user.jsp\">用戶資訊</a>");
         %>
         <a class="navitem" href="./insert.jsp">新增記帳</a>
-        <a class="navitem" href="./update.jsp">修改紀錄</a>
+        <a class="navitem" href="./info.jsp">編輯資訊</a>
         <a class="navitem" href="./select.jsp">收支分析</a>
         <a class="navitem" href="./pay.html">氪金支持</a>
         <form action="logout.jsp" method="POST" class="navitem">
@@ -47,6 +47,13 @@
         }
     %>
     <center><h3>Hint &nbsp; : &nbsp; 記帳分類 &nbsp; *收入 &nbsp; 以外的類別都歸類為 &nbsp; 支出</h3></center>
+    <%
+    String mess = (String)session.getAttribute("MESS");
+    if ( mess != null){
+        out.println("<center><h4 style=\"color:crimson\">" + mess + "</h4></center>");
+        session.removeAttribute("MESS");
+    }
+     %> 
     <center><table border="1">
     <%
     String sql = "";
@@ -59,29 +66,26 @@
             Statement st = con.createStatement();
             sql = "SELECT * FROM `record`,`user` WHERE record.uid = user.UID ORDER BY `year` DESC,`month` DESC,`date` DESC";
             ResultSet rs = st.executeQuery(sql);
-            %>
-            <form action="./update.jsp" method="get"></form>
-            <%
-            out.println("<tr><th>用戶</th><th>年</th><th>月</th><th>日</th><th>類別</th><th>金額</th><th>描述</th><th>編輯</th></tr>");
+            
+            out.println("<tr><th>用戶</th><th>序號</th><th>年</th><th>月</th><th>日</th><th>類別</th><th>金額</th><th>描述</th><th>編輯</th></tr>");
             
             while (rs.next() ){
                 rid = rs.getInt("RID");
-                out.println("<tr><td>"+rs.getObject("username"));
-            %>
-                <input type="hidden" name="RID" value="<%=rid %>" />
-            <%
-                out.println("</td>");   
+                out.println("<tr><td>"+rs.getObject("username")+"</td>>");
+                out.println("<td>"+rs.getObject("RID")+"</td>");   
                 out.println("<td>"+rs.getObject("year")+"</td>");         
                 out.println("<td>"+rs.getObject("month")+"</td>");      
                 out.println("<td>"+rs.getObject("date")+"</td>");  
                 out.println("<td>"+rs.getObject("category")+"</td>");      
                 out.println("<td>"+rs.getObject("amount")+"</td>");
-                out.println("<td>"+rs.getObject("description")+"</td>");      
-            %>
-            <td><input type="submit" value="修改" /></td></tr>
-            <%
-              }
-              out.println("</form>");
+                out.println("<td>"+rs.getObject("description")+"</td>");   
+                %>   
+                <td><form action="update.jsp" method="get">
+                <input type="hidden" name="RID" value="<%=rid %>" />
+                <input type="submit" value="修改" />
+                </form></td></tr>
+                <%
+                }
               rs.close();
               st.close();
               con.close();
@@ -93,27 +97,24 @@
         
         ps.executeQuery();
         ResultSet rs = ps.executeQuery();
-        %>
-            <form action="./update.jsp" method="get"></form>
-        <%
-        out.println("<tr><th>年</th><th>月</th><th>日</th><th>類別</th><th>金額</th><th>描述</th><th>編輯</th></tr>");
+        out.println("<tr><th>序號</th><th>年</th><th>月</th><th>日</th><th>類別</th><th>金額</th><th>描述</th><th>編輯</th></tr>");
 
             while (rs.next() ){
               rid = rs.getInt("RID");
-              out.println("<tr><td>"+rs.getObject("year")+"</td>");  
-            %>
-                <input type="hidden" name="RID" value="<%=rid %>" />
-            <%       
+              out.println("<tr><td>"+rs.getObject("RID")+"</td>");  
+              out.println("<td>"+rs.getObject("year")+"</td>");  
               out.println("<td>"+rs.getObject("month")+"</td>");      
               out.println("<td>"+rs.getObject("date")+"</td>");  
               out.println("<td>"+rs.getObject("category")+"</td>");      
               out.println("<td>"+rs.getObject("amount")+"</td>");      
               out.println("<td>"+rs.getObject("description")+"</td>");    
-            %>
-            <td><input type="submit" value="修改" /></td></tr>
-            <%  
+              %>   
+              <td><form action="update.jsp" method="get">
+              <input type="hidden" name="RID" value="<%=rid %>" />
+              <input type="submit" value="修改" />
+              </form></td></>
+              <%
             }
-            out.println("</form>");
             rs.close();
             ps.close();
             con.close();
