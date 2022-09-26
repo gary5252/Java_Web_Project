@@ -102,7 +102,8 @@
             <!-- <input type="hidden" name="id" id="id" value="<%=id %>"> -->
             <div>
                 <label for="username">性別</label>
-                <select name="gender" id="gender">
+                <!-- js傳值卡住是因為下面select沒有設id，但不知為啥會連後面幾個也跟著卡，update那邊設錯也只有錯的欄位才沒傳到 -->
+                <select name="gender" id="gender">  
                     <option value="F" checked>女生</option>
                     <option value="M">男生</option>
                     <option value="N">不想說</option>

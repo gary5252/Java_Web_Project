@@ -50,7 +50,7 @@
     <%
     String mess = (String)session.getAttribute("MESS");
     if ( mess != null){
-        out.println("<center><h4 style=\"color:crimson\">" + mess + "</h4></center>");
+        out.println("<center><h4 style=\"color:crimson;\">" + mess + "</h4></center>");
         session.removeAttribute("MESS");
     }
      %> 
